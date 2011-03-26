@@ -10,18 +10,19 @@ app = express.createServer()
 
 app.configure ->
     app.use express.logger()
-    app.use express.bodyDecoder()
+    app.use express.bodyParser()
     app.use express.compiler({
         src: __dirname + '/app/assets', 
         dest: __dirname + '/public',
         enable: ['less', 'coffeescript'] })
-    app.use express.staticProvider(__dirname + '/public')
+    app.use express.static(__dirname + '/public')
     
     app.set 'view engine', 'html'
     app.set 'views', './app/views'
     app.register '.html', 
         render: (str, options) ->
-            eco.render str, options.locals
+            return (locals) ->
+                eco.render str, locals
 
 app.configure 'development', ->
     app.use express.errorHandler({ dumpExceptions: true, showStack: true })
