@@ -1,4 +1,3 @@
-
 express = require 'express'
 less = require 'less'
 eco = require 'eco'
@@ -20,7 +19,7 @@ app.configure ->
     app.set 'view engine', 'html'
     app.set 'views', './app/views'
     app.register '.html', 
-        render: (str, options) ->
+        compile: (str, options) ->
             return (locals) ->
                 eco.render str, locals
 
